@@ -8,7 +8,6 @@ const API_BASE = import.meta.env.VITE_API_BASEURL;
 
 // 請自行替換 API_PATH
 const API_PATH = import.meta.env.VITE_API_PATH;
-const meowPartyPath = import.meta.env.VITE_API_PROJECT_PATH;
 
 function App() {
   const [formData, setFormData] = useState({
@@ -46,10 +45,6 @@ function App() {
   // NOTE: function for getting products
   const getProducdtsData = async () => {
     try {
-      const resTest = await axios.get(
-        `${API_BASE}/api/${meowPartyPath}/products/all`,
-      );
-      console.log(resTest);
       const response = await axios.get(
         `${API_BASE}/api/${API_PATH}/products/all`,
       );
