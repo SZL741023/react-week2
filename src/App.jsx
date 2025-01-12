@@ -48,27 +48,30 @@ function App() {
       const response = await axios.get(
         `${API_BASE}/api/${API_PATH}/products/all`,
       );
+      console.log(response);
+      const res2 = await axios.get(`${API_BASE}/api/${API_PATH}/products`);
+      console.log(res2);
       setProducts(response.data.products);
     } catch (error) {
       alert(error.response.data.message);
     }
   };
-
   // NOTE: check web storage has token
   const checkHasToken = () => {
-    const token = document.cookie
-      .split(";")
-      .find((row) => row.startsWith("homework="))
-      .split("=")[1];
-    if (token != undefined) {
-      setIsAuth(true);
-      getProducdtsData();
+    if (document.cookie !== "") {
+      const token = document.cookie
+        .split(";")
+        .find((row) => row.startsWith("homework="))
+        .split("=")[1];
+      if (token != undefined) {
+        setIsAuth(true);
+        getProducdtsData();
+      }
     }
   };
 
   useEffect(() => {
     checkHasToken();
-    console.log(document.cookie);
   }, []);
 
   return (
