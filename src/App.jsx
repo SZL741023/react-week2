@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.css";
 // s%3ApIFe_6Xa9naNp_7WT1xUahwpDvza1tVr.ghV6pR8z7Qqjr2GC7iXCqdccnxJ1F5ZvRo4AphvuCBE
 //
 const API_BASE = import.meta.env.VITE_API_BASEURL;
 
 // 請自行替換 API_PATH
-const API_PATH = import.meta.env.VITE_API_PATH;
+// const API_PATH = import.meta.env.VITE_API_PATH;
+const PROJECT_API_PATH = import.meta.env.VITE_PROJECT_API_PATH;
 
 function App() {
   const [formData, setFormData] = useState({
@@ -46,11 +46,9 @@ function App() {
   const getProducdtsData = async () => {
     try {
       const response = await axios.get(
-        `${API_BASE}/api/${API_PATH}/products/all`,
+        // `${API_BASE}/api/${API_PATH}/products/all`,
+        `${API_BASE}/api/${PROJECT_API_PATH}/products/all`,
       );
-      console.log(response);
-      const res2 = await axios.get(`${API_BASE}/api/${API_PATH}/products`);
-      console.log(res2);
       setProducts(response.data.products);
     } catch (error) {
       alert(error.response.data.message);
@@ -58,15 +56,13 @@ function App() {
   };
   // NOTE: check web storage has token
   const checkHasToken = () => {
-    if (document.cookie !== "") {
-      const token = document.cookie
-        .split(";")
-        .find((row) => row.startsWith("homework="))
-        .split("=")[1];
-      if (token != undefined) {
-        setIsAuth(true);
-        getProducdtsData();
-      }
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)homework\s*=\s*([^;]*).*$)|^.*$/,
+      "$1",
+    );
+    if (token != undefined) {
+      setIsAuth(true);
+      getProducdtsData();
     }
   };
 
